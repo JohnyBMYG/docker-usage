@@ -20,6 +20,7 @@ https://github.com/StephenGrider/multi-k8s
 Docker Client(Docker Cli)
 Docker Server
 
+```
 docker run busybox echo hi there
 docker run busybox ls
 docker run busybox ping google.com
@@ -48,9 +49,11 @@ docker kill 3d196a5dcf43 立马关闭
 进入容器 执行 bash
 docker exec -it containerId bash
 exit
+```
 
 ## Section 3. Building Custom Images Through Docker Server
 
+```
 touch Dockerfile
 docker build .
 
@@ -99,11 +102,14 @@ docker-compose 命令流程
 docker ps
 停止：docker-compose down
 docker ps
+```
 
 restart policies
 
 ```
+
 'no',always,on-failure,unless-stopped
+
 ```
 
 ## Section 6 Creating a Production-Grade workflow
@@ -113,13 +119,16 @@ restart policies
 `docker build -f Dockerfile.dev .`
 `docker run -it -p 3000:3000 ImageId`
 
+```
 docker run ImageId 这里是 ImageID 或者 TagName
 docker run -p 3000:3000 -v /app/node_modules -v \$(pwd):/app ImageId|TagName
 docker run -it -p 3000:3000 -v /app/node_modules -v \$(pwd):/app ImageId|TagName
+```
 
 检查配置问题
 docker-compose config
 
+启动容器项目
 docker-compose up
 
 ```bash
@@ -139,6 +148,7 @@ web:
   stdin_open: true
 ```
 
+```
 docker build -f Dockerfile.dev .
 Successfully built bf1ff968bc0f
 docker run -it bf1ff968bc0f npm run test
@@ -152,7 +162,38 @@ docker attach containerID
 production: add nginx support
 docker build . -> d79d0d6acf0a
 docker run -p 8081:80 d79d0d6acf0a
+```
 
 ## Section 7 Continuous Integration and deployment with AWS
 
 travis ci setup
+aws elastic beanstalk
+
+```yml
+deploy:
+  provider: elasticbeanstalk
+  region: ap-southeast-2
+  app: 'docker-react'
+  env: 'DockerReact-env'
+  bucket_name: 'elasticbeanstalk-ap-southeast-2-260306204374'
+  bucket_path: 'docker-react'
+  on:
+    branch: master
+```
+
+```
+IAM create user
+AWSElasticBeanstalkFullAccess
+
+setup variables in travic ci option:
+AWS_ACCESS_KEY
+AWS_SECRET_KEY
+
+git checkout -b feature
+git commit -m "feature"
+git push origin feature
+github merge feature to master,
+create pull request, run travis ci
+```
+
+## Section 8 Building a Multi-Container Application
